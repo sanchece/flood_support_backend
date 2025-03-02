@@ -24,7 +24,7 @@ app.get('/', function (req, res, next) {
 
 app.get('/gato', async function (req, res, next) {
     try {
-        const gato = await translateApi('I speak cat! Translate API was pinged and returned successfully.')
+        const gato = await translateApi('Hi Bris, I speak cat! Translate API was pinged and returned successfully.')
         // throw new Error("random error test")
         return res.json({ msg: gato })
     }
