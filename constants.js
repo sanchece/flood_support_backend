@@ -1,15 +1,6 @@
-/*
-    ********* constants  ******************************
-
-    This file contains global constants
-
-    ***************************************************
-*/
-
-const prodSpreadsheetId = process.env.GOOGLE_SHEETS_PROD_ID;
+//  **************** constants  ********************
 
 // *************  Graft Living Studios Data Source *****************************
-const mainSourceGoogleSheetsIdProd = process.env.GOOGLE_SHEETS_MAIN_SOURCE_ID;
 const mainSourceRangeMapProd = {
     item: 'Inventory!T12:T',          // 0
     state: 'Inventory!Z12:Z',         // 1
@@ -26,14 +17,8 @@ const mainSourceRangeMapProd = {
     allCategories2: 'Resource Types!B5:B',  // 12
     allStates: 'Resource Types!M5:M8',       // 13
 }
-const prodRangeEn = "v4_app_en";
-const prodRangeEs = "v4_app_es";
 
-// ******************************************************************************
-
-
-// #################### dev ####################
-const mainSourceGoogleSheetsIdDev = process.env.GOOGLE_SHEETS_DEV_ID;
+// *******************     dev     ***********************************
 const mainSourceRangeMapDev = {
     item: 'Inventory Test!H2:H',          // 0
     state: 'Inventory Test!N2:N',         // 1
@@ -50,20 +35,20 @@ const mainSourceRangeMapDev = {
     allCategories2: 'Resource Type Test!B2:B',  // 12
     allStates: 'Resource Type Test!M2:M',       // 13
 }
-const devRangeEn = "v4_app_en_dev";
-const devRangeEs = "v4_app_es_dev";
 
-// ********************************************\
-
+const mainSourceGoogleSheetsId = process.env.GOOGLE_SHEETS_MAIN_SOURCE_ID;
 const isProd = process.env.PROD === 'TRUE';
-const mainSourceGoogleSheetsId = isProd ? mainSourceGoogleSheetsIdProd : mainSourceGoogleSheetsIdDev
 const mainSourceRangeMap = isProd ? mainSourceRangeMapProd : mainSourceRangeMapDev
-const rangeEn = isProd ? prodRangeEn : devRangeEn;
-const rangeEs = isProd ? prodRangeEs : devRangeEs;
+
+
+const processedSourceSpreadsheetId = process.env.GOOGLE_SHEETS_PROCESSED_SOURCE_ID;
+const processedSourceRangeEn = process.env.GOOGLE_SHEETS_PROCESSED_SOURCE_EN;
+const processedSourceRangeEs = process.env.GOOGLE_SHEETS_PROCESSED_SOURCE_ES;
+
 module.exports = {
     mainSourceGoogleSheetsId,
     mainSourceRangeMap,
-    rangeEn,
-    rangeEs,
-    prodSpreadsheetId,
+    processedSourceRangeEn,
+    processedSourceRangeEs,
+    processedSourceSpreadsheetId,
 }

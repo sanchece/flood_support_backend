@@ -14,14 +14,14 @@ const {
 
 const {
     mainSourceGoogleSheetsId,
-    rangeEn,
-    rangeEs,
-    prodSpreadsheetId,
     mainSourceRangeMap,
+    processedSourceRangeEn,
+    processedSourceRangeEs,
+    processedSourceSpreadsheetId,
 } = require('./constants.js');
 
 const getMainSourceData = async (sheets) => {
-    // constants - help map google sheets data ranges
+    // constants - help map  google sheets data ranges
     const keys = Object.keys(mainSourceRangeMap);
     const ranges = Object.values(mainSourceRangeMap);
 
@@ -157,11 +157,11 @@ const translateToSpanish = async (appV4DataCSV) => {
 
 const clearAppV4Data = async (sheets) => {
     const request = {
-        spreadsheetId: prodSpreadsheetId,
+        spreadsheetId: processedSourceSpreadsheetId,
         resource: {
             ranges: [
-                rangeEn,
-                rangeEs, // This will clear all cells in the sheet
+                processedSourceRangeEn,
+                processedSourceRangeEs, // This will clear all cells in the sheet
             ],
         },
     };
@@ -173,19 +173,19 @@ const publishAppV4Data = ({ appV4DataCSV, appV4DataCSVSpanish, sheets }) => {
         valueInputOption: "RAW",
         data: [
             {
-                range: rangeEn,
+                range: processedSourceRangeEn,
                 majorDimension: "ROWS",
                 values: appV4DataCSV
             },
             {
-                range: rangeEs,
+                range: processedSourceRangeEs,
                 majorDimension: "ROWS",
                 values: appV4DataCSVSpanish
             },
         ]
     }
     sheets.spreadsheets.values.batchUpdate({
-        spreadsheetId: prodSpreadsheetId,
+        spreadsheetId: processedSourceSpreadsheetId,
         resource,
     });
 }

@@ -15,11 +15,9 @@ const {
     clearAppV4Data,
 } = require('./submitDataHelpers.js');
 const {
-    mainSourceGoogleSheetsId,
-    mainSourceRangeMap,
-    rangeEn,
-    rangeEs,
-    prodSpreadsheetId,
+    processedSourceRangeEn,
+    processedSourceRangeEs,
+    processedSourceSpreadsheetId,
 } = require('./constants.js');
 
 // auth 1: restrict to only target origin
@@ -83,13 +81,16 @@ const sheetsPromise = getSheetsClient();
 
 app.get('/getData', async function (req, res, next) {
     try {
+        // get data from processed source
         const sheets = await sheetsPromise;
-        const readData = await sheets.spreadsheets.values.batchGet({
-            spreadsheetId: prodSpreadsheetId,
-            ranges: [rangeEn, rangeEs],
+        const readData = sheets.spreadsheets.values.batchGet({
+            spreadsheetId: processedSourceSpreadsheetId,
+            ranges: [processedSourceRangeEn, processedSourceRangeEs],
         });
+        // Extract data and convert into an array or arrays
         const baseData = [];
         readData.data.valueRanges.forEach((rangeData) => baseData.push(rangeData.values || []));
+        // Convert into Json for front end to recieve
         const formattedEn = csvArrayToJson(baseData[0]);
         const formattedEs = csvArrayToJson(baseData[1]);
         res.json({ en: formattedEn, es: formattedEs });
@@ -101,11 +102,16 @@ app.get('/getData', async function (req, res, next) {
 app.get('/submitData', async function (req, res, next) {
     try {
         const sheets = await sheetsPromise;
-        const mainSourceData = await getMainSourceData(sheets);   // Get data from GLS Main Source Google Sheets
+        // 1) Get data from GLS Main Source Google Sheets
+        const mainSourceData = await getMainSourceData(sheets);
+        // 2) Validate data
         validateMainSourceData(mainSourceData);
+        // 3) Convert data for google sheets table insertion
         const appV4DataCSV = convertToAppV4DataSet(mainSourceData);
         const appV4DataCSVSpanish = await translateToSpanish(appV4DataCSV);
+        // 4) Clear data
         clearAppV4Data(sheets);
+        // 5) Load data into Google Sheets
         publishAppV4Data({ appV4DataCSV, appV4DataCSVSpanish, sheets })
         return res.json({ Message: "Data was published successfully" });
     }
@@ -130,4 +136,3 @@ app.use(function (err, req, res, next) {
 app.listen(port, function () {
     console.log(`CORS-enabled web server listening on port ${port}`)
 })
-
