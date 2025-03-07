@@ -83,7 +83,7 @@ app.get('/getData', async function (req, res, next) {
     try {
         // get data from processed source
         const sheets = await sheetsPromise;
-        const readData = sheets.spreadsheets.values.batchGet({
+        const readData = await sheets.spreadsheets.values.batchGet({
             spreadsheetId: processedSourceSpreadsheetId,
             ranges: [processedSourceRangeEn, processedSourceRangeEs],
         });
