@@ -15,6 +15,7 @@ const {
 const {
     mainSourceGoogleSheetsId,
     mainSourceRangeMap,
+    ordCoordsMap,
     processedSourceRangeEn,
     processedSourceRangeEs,
     processedSourceSpreadsheetId,
@@ -95,19 +96,38 @@ const convertToAppV4DataSet = (mainSourceData) => {
     // Merge items data and orgs data
     const itemsJson = csvArrayToJson(inventoryDataRows);
     const orgsJson = csvArrayToJson(orgDataRows);
+
+    // add coords to org objects
+    const orgsJsonWithCoords = orgsJson.map(org => ({
+        ...org,
+        'coordinates': ordCoordsMap[org['whoDashboard']] || 'Unknown' // Fallback if no match
+    }));
+
     itemsJson.forEach(itemA => {
-        let match = orgsJson.find(itemB => itemB.whoDashboard === itemA.who); // Find the matching object in arrayB
+        let match = orgsJsonWithCoords.find(itemB => itemB.whoDashboard === itemA.who); // Find the matching object in arrayB
         if (match) {        // If a match is found, add the properties from itemB into itemA
+            itemA.accepting = match.accepting || '';
             itemA.address = match.address || '';
-            itemA.how = match.how || '';
-            itemA.accepting = match.accepting ||'';
             itemA.connect = match.connect || '';
             itemA.contact = match.contact || '';
+            itemA.coordinates = match.coordinates || '';
+            itemA.how = match.how || '';
         }
     });
-
     // Prep Data v4_app table insertion -  Convert array of objects to array of row arrays for table insertion
-    const headers = ['item', 'state', 'who', 'category1', 'category2', 'address', 'how', 'accepting', 'connect', 'contact'];
+    const headers = [
+        'item', // 0
+        'state',// 1
+        'who',// 2
+        'category1',// 3
+        'category2',// 4
+        'address',// 5
+        'coordinates',// 6
+        'how',// 7
+        'accepting',// 8
+        'connect',// 9
+        'contact', // 10
+    ];
     const appV4DataCSV = [
         headers, // The first row is the headers
         ...itemsJson.map(item => headers.map(header => item[header])) // Convert each object to an array of values based on the headers
@@ -120,8 +140,8 @@ const translateToSpanish = async (appV4DataCSV) => {
     const items = spanishData.map(subArray => subArray[0]);
     const category1 = spanishData.map(subArray => subArray[3]);
     const category2 = spanishData.map(subArray => subArray[4]);
-    const how = spanishData.map(subArray => subArray[6]);
-    const connect = spanishData.map(subArray => subArray[7]);
+    const how = spanishData.map(subArray => subArray[7]);
+    const connect = spanishData.map(subArray => subArray[9]);
     const accepting = spanishData.map(subArray => subArray[8]);
 
     // Use Promise.all to translate items and states in parallel
@@ -147,8 +167,8 @@ const translateToSpanish = async (appV4DataCSV) => {
             subArray[0] = translatedItems[i];   // Update translated item
             subArray[3] = translatedCat1[i];   // Update translated state
             subArray[4] = translatedCat2[i];   // Update translated state
-            subArray[6] = translatedHow[i];   // Update translated state
-            subArray[7] = translatedConnect[i];   // Update translated state
+            subArray[7] = translatedHow[i];   // Update translated state
+            subArray[9] = translatedConnect[i];   // Update translated state
             subArray[8] = translatedAccepting[i];   // Update translated state
         }
     });

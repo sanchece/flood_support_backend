@@ -45,9 +45,20 @@ const processedSourceSpreadsheetId = process.env.GOOGLE_SHEETS_PROCESSED_SOURCE_
 const processedSourceRangeEn = process.env.GOOGLE_SHEETS_PROCESSED_SOURCE_EN;
 const processedSourceRangeEs = process.env.GOOGLE_SHEETS_PROCESSED_SOURCE_ES;
 
+const ordCoordsMap = {
+    'DHDC': '[42.29092296208219, -83.1284793783231]',
+    'GLS/CCG': '[42.31042777479261, -83.11059846448094]',
+    'Kemeny Rec Center': '[42.33180300207827, -83.09299323565106]',
+    'Santos Church': '[42.316477834989165, -83.1077980407536]',
+    'SDBA': '[42.31236619853888, -83.1252800626131]',
+    'UNI': '[42.30524029038813, -83.12620346446774]',
+    'Vamanos': '[42.32022772253091, -83.09676619149316]',
+  };
+
 module.exports = {
     mainSourceGoogleSheetsId,
     mainSourceRangeMap,
+    ordCoordsMap,
     processedSourceRangeEn,
     processedSourceRangeEs,
     processedSourceSpreadsheetId,
