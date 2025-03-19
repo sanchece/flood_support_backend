@@ -34,6 +34,7 @@ const mainSourceRangeMapDev = {
     allCategories1: 'Resource Type Test!A2:A',  // 11
     allCategories2: 'Resource Type Test!B2:B',  // 12
     allStates: 'Resource Type Test!M2:M',       // 13
+    important: 'Inventory Test!O2:O300',         // 14
 }
 
 const mainSourceGoogleSheetsId = process.env.GOOGLE_SHEETS_MAIN_SOURCE_ID;

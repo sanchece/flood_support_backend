@@ -42,7 +42,10 @@ const getMainSourceData = async (sheets) => {
 
     //Clean Data - removes duplicates from unique column ranges
     const typesRanges = ['allCategories1', 'allCategories2', 'allStates', 'whoDashboard'];
-    mainSourceData.map((subArray, i) => { if (typesRanges.includes(subArray[0])) { mainSourceData[i] = [...new Set(subArray)] } })
+    mainSourceData.map((subArray, i) => {
+        if (typesRanges.includes(subArray[0])) { mainSourceData[i] = [...new Set(subArray)] }
+        else if (subArray[0] === 'important') { subArray[0].length = mainSourceData[1].length }
+    })
     return mainSourceData;
 }
 
@@ -76,12 +79,19 @@ const validateMainSourceData = (mainSourceData) => {
         if (subArray[0] === 'item') {
             subArray.map(item => { if (item === '') { throw new Error(`Invalid Item: An item is empty`) } })
         }
+        if (subArray[0] === 'important') {
+            subArray.map((value, i) => {
+                if (i !== 0 && (value !== 'FALSE' && value !== 'TRUE')) {
+                    throw new Error(`Invalid Attention value: ${value}`)
+                }
+            })
+        }
     })
 }
 
 const convertToAppV4DataSet = (mainSourceData) => {
     // Categorize data - break down array of all data into 3 arrays based on category
-    const inventoryColumns = ['item', 'state', 'who', 'category1', 'category2']
+    const inventoryColumns = ['item', 'state', 'who', 'category1', 'category2', 'important']
     const orgColumns = ['whoDashboard', 'address', 'how', 'accepting', 'connect', 'contact']
     const typesDataColumns = ['allCategories1', 'allCategories2', 'allStates']
     const inventoryData = mainSourceData.filter(subArray => inventoryColumns.includes(subArray[0]));
@@ -127,6 +137,7 @@ const convertToAppV4DataSet = (mainSourceData) => {
         'accepting',// 8
         'connect',// 9
         'contact', // 10
+        'important', // 11
     ];
     const appV4DataCSV = [
         headers, // The first row is the headers
