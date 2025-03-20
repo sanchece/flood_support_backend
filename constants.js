@@ -2,11 +2,11 @@
 
 // *************  Graft Living Studios Data Source *****************************
 const mainSourceRangeMapProd = {
-    item: 'Inventory!T12:T',          // 0
-    state: 'Inventory!Z12:Z',         // 1
-    who: 'Inventory!R12:R',           // 2
-    category1: 'Inventory!U12:U',     // 3
-    category2: 'Inventory!V12:V',     // 4
+    item: 'Inventory!T10:T',          // 0
+    state: 'Inventory!Z10:Z',         // 1
+    who: 'Inventory!R10:R',           // 2
+    category1: 'Inventory!U10:U',     // 3
+    category2: 'Inventory!V10:V',     // 4
     whoDashboard: 'Dashboard!E17:E',  // 5
     address: 'Dashboard!G17:G',       // 6
     how: 'Dashboard!D17:D',           // 7
@@ -16,7 +16,7 @@ const mainSourceRangeMapProd = {
     allCategories1: 'Resource Types!A5:A',  // 11
     allCategories2: 'Resource Types!B5:B',  // 12
     allStates: 'Resource Types!M5:M8',       // 13
-    important: 'Inventory!AB12:AB',         // 14
+    important: 'Inventory!AB10:AB',         // 1
 }
 
 // *******************     dev     ***********************************
