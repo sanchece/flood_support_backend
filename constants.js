@@ -16,6 +16,7 @@ const mainSourceRangeMapProd = {
     allCategories1: 'Resource Types!A5:A',  // 11
     allCategories2: 'Resource Types!B5:B',  // 12
     allStates: 'Resource Types!M5:M8',       // 13
+    important: 'Inventory!AB12:AB',         // 14
 }
 
 // *******************     dev     ***********************************
