@@ -23,7 +23,7 @@ const {
 // auth 1: restrict to only target origin
 app.use(cors());
 app.use(cors({
-    origin: process.env.CLIENT_URL, // Replace with your frontend domain
+    origin: [process.env.CLIENT_URL, 'https://www.swdetroitsupport.com/', 'https://swdetroitsupport.com/'], // Replace with your frontend domain
     // origin: '*', // * means any origin is accepted
     // methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
     methods: ['GET'], // Allowed methods
