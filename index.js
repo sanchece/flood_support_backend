@@ -20,26 +20,12 @@ const {
     processedSourceSpreadsheetId,
 } = require('./constants.js');
 
-// auth 1: restrict to only target origin
-app.use(cors());
+
 app.use(cors({
     origin: [process.env.CLIENT_URL, 'https://www.swdetroit.info/', 'https://swdetroit.info/'], // Replace with your frontend domain
-    // origin: '*', // * means any origin is accepted
-    // methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
     methods: ['GET'], // Allowed methods
-    // credentials: true // If you need cookies or authentication
 }));
 app.use(express.json()); // don't need - there isn't any requests with a json body
-
-
-// auth 2: check for valid API key 
-// app.use((req, res, next) => {
-// const key = req.headers['x-api-key'];
-// if (!key || key !== API_KEY) {
-//     return res.status(403).json({ error: 'Invalid or missing API key' });
-// }
-// next();
-// });
 
 app.get('/', function (req, res, next) {
     try {
@@ -50,6 +36,7 @@ app.get('/', function (req, res, next) {
     }
 })
 
+// route to test prod server
 app.get('/gato', async function (req, res, next) {
     try {
         return res.json({ msg: "meow" })
