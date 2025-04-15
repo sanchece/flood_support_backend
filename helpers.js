@@ -5,12 +5,10 @@ const translateApi = async (array) => {
     const uniqueArray = [...new Set(array)]
     // no need for nested try catch, any error here is handled by invoked router function
     const gato = await translate(uniqueArray, { to: 'es' });
-    // throw new Error("error with translate api") // for testing
     // Ensure both arrays are of the same length
     let dict = {}
     if (uniqueArray.length === gato.length) {
         dict = Object.fromEntries(uniqueArray.map((key, index) => [key, gato[index]]));
-        // console.log(mergedObject);
     } else {
         console.log("Arrays must have the same length.");
     }
