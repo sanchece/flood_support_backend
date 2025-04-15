@@ -20,7 +20,7 @@ const {
     processedSourceSpreadsheetId,
 } = require('./constants.js');
 
-
+app.use(cors());
 app.use(cors({
     origin: [process.env.CLIENT_URL, 'https://www.swdetroit.info/', 'https://swdetroit.info/'], // Replace with your frontend domain
     methods: ['GET'], // Allowed methods

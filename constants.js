@@ -1,6 +1,6 @@
 //  **************** constants  ********************
 
-// *************  Graft Living Studios Data Source *****************************
+// *************  Prod Data Source *****************************
 const mainSourceRangeMapProd = {
     item: 'Inventory!T10:T',          // 0
     state: 'Inventory!Z10:Z',         // 1
